@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>Movies Lists</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/thumbnail-gallery.css" rel="stylesheet">
+
+</head>
+<body  onload="popular()">
+    <header>
+
+    
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                        <h1 class="page-header">Movies List</h1>
+            </div>
+            <div class="row">        
+                <div class="col-md-6 text-left">
+                    <button  id="rate" type="button" class="btn btn-default text-center" onclick="rate()">
+                        Sort by rate
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    </button>
+                </div> 
+                <div class="col-md-6 text-right">
+                    <button  id="rate" type="button" class="btn btn-default" onclick="popular()">
+                        Sort by popluar
+                        <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>                  
+        </div>
+            <br>
+            <div class="movies">
+
+            </div>
+        <hr>
+
+    </div>
+    </header>
+</body>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Our Great Code -->
+    <script>
+
+    // Sort by popular
+     function popular(){
+        
+        $('.movies').empty();   // Empty the DOM
+
+        $.ajax({url: "http://api.themoviedb.org/3/movie/popular?api_key=bab007b9a6288af1455b8cee1f4f9d36", success: function(result){
+
+            for( var i =0 ; i<12 ; i++){ // loop into popular poster paths then append the result into the DOM
+                var tag = '<div class="col-lg-3 col-md-4 col-xs-6 thumb"><a class="img-thumbnail" href="details.html?movie_id='+result.results[i].id+'"> <img class="img-responsive" src="http://image.tmdb.org/t/p/w185/'+result.results[i].poster_path+'" alt=""></a></div>'
+                $('.movies').append(tag);
+            };
+        }});
+    };
+
+    //sort by top rated
+   function rate(){
+
+        $('.movies').empty();    // Empty the DOM
+        
+        $.ajax({url: "http://api.themoviedb.org/3/movie/top_rated?api_key=bab007b9a6288af1455b8cee1f4f9d36", success: function(result){
+       
+            for( var i =0 ; i<12 ; i++){    // loop into top rated poster paths then append the result into the DOM
+                    var tag = '<div class="col-lg-3 col-md-4 col-xs-6 thumb"><a class="img-thumbnail" href="details.html?movie_id='+result.results[i].id+'"> <img class="img-responsive" src="http://image.tmdb.org/t/p/w185/'+result.results[i].poster_path+'" alt=""></a></div>'
+                    $('.movies').append(tag);
+                };
+        }});
+    };
+    
+    </script>
+
+</html>
